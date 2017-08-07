@@ -1,4 +1,5 @@
 var fs=require('fs');
+var  getKeysFromClassStr= require('./getKeysFromCTS').getKeysFromClassStr
 const {log}=console;
 
 // fs.readFile('./orderController.ts','utf-8',(err,data)=>{
@@ -22,14 +23,22 @@ let temp=data;
 let classStr=temp.match(/class(.|\r\n)+\}/)[0]
 
 // let className=classStr.match(/class\s\w+\s/)[0].replace('class ','');//OK 
-let classContentStr=classStr.match(/\{(.|\r\n)+\}/)[0];
+let classContentStr=classStr.match(/\{(.|\r\n)+\}/)[0];//{}包裹的类的内容
+
 let classContentStrTrim=classContentStr.replace(/(\r\n|\s)/g,'')
 
-let ctrNoScope=classContentStr.replace('this.$scope.','this.');
+let ctrNoScope=classContentStr.replace(/this\.\$scope\./g,'this.');
 
 
-log(classContentStr)
+getKeysFromClassStr(ctrNoScope)
 
 
-// fs.writeFile('./demo.ts',classStr);
+
+// fs.writeFileSync('./demo.ts',ctrNoScope);
+
+
+// log(ctrNoScope.charAt(ctrNoScope.length-1))
+
+
+
 

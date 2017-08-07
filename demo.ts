@@ -1,4 +1,4 @@
-class OrderController extends ListController<IOrderViewModel, IOrderQueryTerms> {
+{
     gridApi: uiGrid.IGridApiOf<orderList>;
     orderBy: number = 0;
     asc: boolean = true;
@@ -12,11 +12,11 @@ class OrderController extends ListController<IOrderViewModel, IOrderQueryTerms> 
 
     init(): void {
         super.init();
-        this.$scope.deleteOrder = this.deleteOrder;
-        this.$scope.endOrder = this.endOrder;
-        this.$scope.addOrCopyOrder = this.addOrCopyOrder;
-        this.$scope.editOrder = this.editOrder;
-        this.$scope.$on("WildDog:Order12", this.onWilddogOrderEvent);
+        this.deleteOrder = this.deleteOrder;
+        this.endOrder = this.endOrder;
+        this.addOrCopyOrder = this.addOrCopyOrder;
+        this.editOrder = this.editOrder;
+        this.$on("WildDog:Order12", this.onWilddogOrderEvent);
 
         $('#opendataTime').click(function () {
             $('#dataTime').datetimepicker('show');
@@ -25,7 +25,7 @@ class OrderController extends ListController<IOrderViewModel, IOrderQueryTerms> 
             $('#dataTimeEnd').datetimepicker('show');
         });
 
-        this.$scope.queryTerms = {
+        this.queryTerms = {
             orderId: "",
             clientName: "",
             route: "",
@@ -37,7 +37,7 @@ class OrderController extends ListController<IOrderViewModel, IOrderQueryTerms> 
             dispatchOfficerId: ""
         };
 
-        this.$scope.gridOptions = {
+        this.gridOptions = {
             enableSelectAll: false,
             paginationPageSizes: [10, 20, 30],
             useExternalPagination: true,
@@ -77,7 +77,7 @@ class OrderController extends ListController<IOrderViewModel, IOrderQueryTerms> 
                 gridApi.selection.on.rowSelectionChanged(this.$scope, this.selectChange);
             }
         };
-        this.$scope.gridOptions.multiSelect = false;
+        this.gridOptions.multiSelect = false;
         this.query();
         this.loadDispatchOfficerDropDown();
         this.loadOrderStatusDropDown();
@@ -92,27 +92,27 @@ class OrderController extends ListController<IOrderViewModel, IOrderQueryTerms> 
 
     loadDispatchOfficerDropDown(): void {
         this.employeeService.getList("2", "", "", "", "", true,0, -1).then(result => {
-            this.$scope.dispatchOfficerDropDown = result.data.list;
+            this.dispatchOfficerDropDown = result.data.list;
         });
     }
 
     loadOrderStatusDropDown(): void {
-        this.$scope.orderStatusDropDown = this.valueService.getOrderStatusList().list;
+        this.orderStatusDropDown = this.valueService.getOrderStatusList().list;
     }
 
     loadData(queryTerms: IOrderQueryTerms, skip: number, count: number): void {
         this.orderService.list(this.orderBy.toString(), this.asc, queryTerms.orderId, queryTerms.clientName, queryTerms.route,
             queryTerms.shipStartTime, queryTerms.shipEndTime, queryTerms.orderStatus, "", "", queryTerms.dispatchOfficerId,
             queryTerms.shipAddress, queryTerms.deliverAddress, "", skip, count).then(result => {
-                this.$scope.gridOptions.totalItems = result.data.total;
-                this.$scope.gridOptions.data = result.data.list;
-                this.$scope.heightA = ((result.data.list.length * 39) + 95);
+                this.gridOptions.totalItems = result.data.total;
+                this.gridOptions.data = result.data.list;
+                this.heightA = ((result.data.list.length * 39) + 95);
                 if (skip == 0) {
-                    this.$scope.gridOptions.paginationCurrentPage = 1;
+                    this.gridOptions.paginationCurrentPage = 1;
                 }
-                this.$scope.querying = false;
+                this.querying = false;
             }, error => {
-                this.$scope.querying = false;
+                this.querying = false;
             });
     }
 
