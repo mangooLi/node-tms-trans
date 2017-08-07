@@ -1,6 +1,6 @@
 //classContentStr中获取属性和属性的值
 
-function parseCtr(str){
+function parseCtrStr(str){
     // console.log('length',str.length);
     let keys=[],ents=[];
     tempKey='',tempCtn='',tempEnt={};
@@ -75,7 +75,7 @@ function parseCtr(str){
     return {keys,ents}
 }
 
-module.exports={parseCtr:parseCtr}
+module.exports={parseCtrStr:parseCtrStr}
 
 
 
